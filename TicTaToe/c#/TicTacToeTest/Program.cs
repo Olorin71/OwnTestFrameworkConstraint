@@ -10,42 +10,52 @@ namespace TicTacToeTest
 
         private static void Main()
         {
-            AfterTheGivenPlaysTheWinnerIs(FakePlaySeries.NoPlay, "No winner - Game in progress.");
-            AfterPlayingTheGivenValueIsAtTheGivenPosition(FakePlaySeries.PlayOnceAtZeroZero, new Position(0, 0), "X");
-            AfterPlayingTheGivenValueIsAtTheGivenPosition(FakePlaySeries.PlayTwiceSecondAtOneOne, new Position(1, 1), "O");
-            AfterTheGivenPlaysTheWinnerIs(FakePlaySeries.XWinsWithThreeXsAtColumnZero, "X");
-            AfterTheGivenPlaysTheWinnerIs(FakePlaySeries.OWinsWithThreeOsAtColumnOne, "O");
-            AfterTheGivenPlaysTheWinnerIs(FakePlaySeries.XWinsWithThreeXsAtRowZero, "X");
-            AfterTheGivenPlaysTheWinnerIs(FakePlaySeries.OWinsWithThreeOsAtRowTwo, "O");
-            AfterTheGivenPlaysTheWinnerIs(FakePlaySeries.XWinsWithThreeXsAtFirstDiagonal, "X");
-            AfterTheGivenPlaysTheWinnerIs(FakePlaySeries.XWinsWithThreeXsAtSecondDiagonal, "X");
+            AfterTheGivenPlays_TheWinnerIs(FakePlaySeries.NoPlay, "No winner - Game in progress.");
+            AfterPlaying_TheGivenValueIsAtTheGivenPosition(FakePlaySeries.PlayOnceAtZeroZero, new Position(0, 0), "X");
+            AfterPlaying_TheGivenValueIsAtTheGivenPosition(FakePlaySeries.PlayTwiceSecondAtOneOne, new Position(1, 1), "O");
+            AfterTheGivenPlays_TheWinnerIs(FakePlaySeries.XWinsWithThreeXsAtColumnZero, "X");
+            AfterTheGivenPlays_TheWinnerIs(FakePlaySeries.OWinsWithThreeOsAtColumnOne, "O");
+            AfterTheGivenPlays_TheWinnerIs(FakePlaySeries.XWinsWithThreeXsAtRowZero, "X");
+            AfterTheGivenPlays_TheWinnerIs(FakePlaySeries.OWinsWithThreeOsAtRowTwo, "O");
+            AfterTheGivenPlays_TheWinnerIs(FakePlaySeries.XWinsWithThreeXsAtFirstDiagonal, "X");
+            AfterTheGivenPlays_TheWinnerIs(FakePlaySeries.XWinsWithThreeXsAtSecondDiagonal, "X");
 
+            TicTacToeGame game = new TicTacToeGame();
+
+            var position = new Position(1, 2);
+
+            bool playSucceded = game.PlayNextTurnAt(position);
+
+            if (playSucceded)
+            {
+                Console.WriteLine("Success: Position " + position + " can be played");
+            }
+            else
+            {
+                Console.WriteLine("Failure: Position " + position + " can NOT be played");
+            }
             Console.ReadKey();
         }
 
         #region Tests
 
-        private static void AfterPlayingTheGivenValueIsAtTheGivenPosition(List<Position> positionsToBePlayed, Position position, string expectedValue)
+        private static void AfterPlaying_TheGivenValueIsAtTheGivenPosition(List<Position> positionsToBePlayed, Position position, string expectedValue)
         {
-            InitializeGameState(positionsToBePlayed);
+            CreateEmptyTicTacToeGame();
+            PlayTheGivenPositions(positionsToBePlayed);
             AreEqual(game.ValueAt(position), expectedValue);
         }
 
-         private static void AfterTheGivenPlaysTheWinnerIs(List<Position> positionsToBePlayed, string theWinner)
+         private static void AfterTheGivenPlays_TheWinnerIs(List<Position> positionsToBePlayed, string theWinner)
         {
-            InitializeGameState(positionsToBePlayed);
-            AreEqual(game.Winner, theWinner);
+             CreateEmptyTicTacToeGame();
+             PlayTheGivenPositions(positionsToBePlayed);
+             AreEqual(game.Winner, theWinner);
         }
 
         #endregion
 
         #region Glue code
-
-        private static void InitializeGameState(List<Position> positionsToBePlayed)
-        {
-            CreateEmptyTicTacToeGame();
-            PlayTheGivenPositions(positionsToBePlayed);
-        }
 
         private static void PlayTheGivenPositions(List<Position> positions)
         {

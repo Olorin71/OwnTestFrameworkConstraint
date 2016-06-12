@@ -2,7 +2,11 @@
 {
     public class TicTacToeGame
     {
-        private readonly string[,] board = new string[3, 3];
+        private readonly string[,] board = {
+            {string.Empty, string.Empty, string.Empty}, 
+            {string.Empty, string.Empty, string.Empty},
+            {string.Empty, string.Empty, string.Empty}
+        };
 
         private readonly string NoWinner = "No winner - Game in progress.";
 
@@ -15,18 +19,22 @@
 
         public string Winner { get; private set; }
 
-        public void PlayNextTurnAt(Position newPosition)
+        public bool PlayNextTurnAt(Position newPosition)
         {
+            if (board[newPosition.X, newPosition.Y] != string.Empty)
+            {
+                return false;
+            }
             DecideWhoIsPlaying();
             SetThePosition(newPosition);
             if (ActualPlayerHasWonAfterPlayingAt(newPosition))
             {
                 SetTheWinner();
             }
+            return true;
         }
 
         public string ValueAt(Position p) => ValueAt(p.X, p.Y);
-
 
         private void SetTheWinner()
         {
