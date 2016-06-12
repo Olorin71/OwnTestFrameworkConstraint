@@ -20,7 +20,35 @@ namespace TicTacToeTest
             AfterTheGivenPlays_TheWinnerIs(FakePlaySeries.XWinsWithThreeXsAtFirstDiagonal, "X");
             AfterTheGivenPlays_TheWinnerIs(FakePlaySeries.XWinsWithThreeXsAtSecondDiagonal, "X");
 
-            TicTacToeGame game = new TicTacToeGame();
+            EmptyPositionCanBePlayed();
+
+            AlreadyUsedPositionCannotBePlayedAgain();
+
+            Console.ReadKey();
+        }
+
+        private static void AlreadyUsedPositionCannotBePlayedAgain()
+        {
+            game = new TicTacToeGame();
+
+            var position = new Position(1, 2);
+
+            game.PlayNextTurnAt(position);
+            bool canBePlayed = game.PlayNextTurnAt(position);
+
+            if (!canBePlayed)
+            {
+                Console.WriteLine("Success: Position " + position + " is already used.");
+            }
+            else
+            {
+                Console.WriteLine("Failure: Position " + position + " could be played.");
+            }
+        }
+
+        private static void EmptyPositionCanBePlayed()
+        {
+            game = new TicTacToeGame();
 
             var position = new Position(1, 2);
 
@@ -34,7 +62,6 @@ namespace TicTacToeTest
             {
                 Console.WriteLine("Failure: Position " + position + " can NOT be played");
             }
-            Console.ReadKey();
         }
 
         #region Tests
